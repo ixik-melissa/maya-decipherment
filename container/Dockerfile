@@ -33,8 +33,8 @@ RUN curl -L -o /tmp/powershell.tar.gz https://github.com/PowerShell/PowerShell/r
     pwsh -Command "Install-Module posh-git -Scope AllUsers -Force" && \
     pwsh -Command "Add-PoshGitToProfile -AllUsers -AllHosts"
 
-# Dev Containers need a pre-defined user called 'vscode'
-ARG user_name="ajtzib"
+# Add user ajtzihb
+ARG user_name="ajtzihb"
 RUN useradd -m -k /etc/skel -d /home/$user_name $user_name
  
 # Github runners run as root by default to avoid perimission problems

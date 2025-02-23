@@ -3,7 +3,7 @@
 	"name": "Maya Hieroglyphs - The History of Decipherment",
 	"build": {
 		"dockerfile": "../container/Dockerfile",
-		"args": {"user_name": "ajtzib"}
+		"args": {"user_name": "ajtzihb"}
 	},
 	"customizations": {
 		"vscode": {
@@ -31,7 +31,7 @@
 	},
 	"mounts": [
 		// Use SSH keys from host
-		{ "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh", "target": "/home/ajtzib/.ssh", "type": "bind" }
+		{ "source": "${localEnv:HOME}${localEnv:USERPROFILE}/.ssh", "target": "/home/ajtzihb/.ssh", "type": "bind" }
 	],
-	"containerUser": "ajtzib"
+	"containerUser": "ajtzihb"
 }
