@@ -32,7 +32,7 @@ decipherment until today.
 
 ## Releases
 All releases of the document can be found 
-[here](https://github.com/yax-lakam-tuun/maya-decipherment/releases).
+[here](https://github.com/ixik-melissa/maya-decipherment/releases).
 Every release contains the source code the document is based on, a changelog with a description 
 of the all changes which have been made and the final document as PDF.
 Please see the chapter about [releases](documentation/releases.md) for more information.

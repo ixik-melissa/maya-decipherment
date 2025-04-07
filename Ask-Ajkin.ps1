@@ -36,7 +36,7 @@
     13.0.10.7.12 12 Eb' Ending of Wayeb
 
     .LINK
-    https://github.com/yax-lakam-tuun/maya-decipherment
+    https://github.com/ixik-melissa/maya-decipherment
 #>
 [CmdletBinding(DefaultParametersetName="default")]
 param (

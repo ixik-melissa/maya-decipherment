@@ -37,7 +37,7 @@
     ./ConvertFrom-Svg.ps1 -SvgFiles a.svg -Dpi 150
 
     .LINK
-    https://github.com/yax-lakam-tuun/maya-decipherment
+    https://github.com/ixik-melissa/maya-decipherment
 #>
 
 param (

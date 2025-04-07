@@ -20,7 +20,7 @@
     ./Test-Document -DocumentPath "/opt/source/somePdf.pdf"
 
     .LINK
-    https://github.com/yax-lakam-tuun/maya-decipherment
+    https://github.com/ixik-melissa/maya-decipherment
 #>
 
 [CmdletBinding()]

@@ -28,7 +28,7 @@
     ./Test-LaTexFiles.ps1 -RootPath /opt/source
 
     .LINK
-    https://github.com/yax-lakam-tuun/maya-decipherment
+    https://github.com/ixik-melissa/maya-decipherment
 #>
 
 [CmdletBinding()]
