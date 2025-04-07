@@ -31,7 +31,7 @@ Feel free to contact the maintainers if that's a concern.
 ## Report problems and suggestions
 This project use issues to track public problems/suggestions. 
 Report a problem/suggestion by 
-[opening a new issue](https://github.com/yax-lakam-tuun/maya-decipherment/issues).
+[opening a new issue](https://github.com/ixik-melissa/maya-decipherment/issues).
 It's that easy!
 The project distinguishes between `Bug` and `Suggestion`.
 
