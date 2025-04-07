@@ -39,7 +39,7 @@
     ./Edit-DocumentVersion.ps1 -LongCount -VersionTexPath ./document-version.tex
 
     .LINK
-    https://github.com/yax-lakam-tuun/maya-decipherment
+    https://github.com/ixik-melissa/maya-decipherment
 #>
 
 [CmdletBinding()]
