@@ -1,9 +1,10 @@
 # Changelog
 
-## [13.0.12.8.7] - 2025-04-07
+## [13.0.12.8.17] - 2025-04-17
 
 ### Changed
 - Username transition from _yax-lakam-tuun_ to _ixik-melissa_ (#49)
+- Review of chapter 'Introduction' (#52)
 
 
 ## [13.0.12.4.0] - 2025-01-10
