@@ -42,4 +42,4 @@ USER root
 
 # Compile document when container is executed with defaults
 SHELL [ "pwsh" ]
-CMD ["pwsh", "-Command", "/opt/sources/Compile-Document.ps1 -DocumentName \"Maya Hieroglyphs - The History of Decipherment\""]
+CMD ["pwsh", "-Command", "/opt/sources/Compile-Document.ps1 -DocumentName \"The Decipherment of the Maya Hieroglyphs\""]

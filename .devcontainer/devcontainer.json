@@ -1,6 +1,6 @@
 // For format details, see https://aka.ms/vscode-remote/devcontainer.json or this file's README at:
 {
-	"name": "Maya Hieroglyphs - The History of Decipherment",
+	"name": "The Decipherment of the Maya Hieroglyphs",
 	"build": {
 		"dockerfile": "../container/Dockerfile",
 		"args": {"user_name": "ajtzib"}
