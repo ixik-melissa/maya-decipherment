@@ -30,14 +30,14 @@ jobs:
       - name: Test LaTeX files
         uses: ./.github/actions/docker_run
         with:
-          command: |
+          command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Test-LaTeXFiles.ps1 
             -RootPath \"${{ env.CONTAINER_SOURCE_PATH }}\"
 
       - name: Compile document
         uses: ./.github/actions/docker_run
         with:
-          command: |
+          command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
             -SourcePath \"${{ env.CONTAINER_SOURCE_PATH }}\" 
             -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
@@ -47,7 +47,7 @@ jobs:
       - name: Test document
         uses: ./.github/actions/docker_run
         with:
-          command: |
+          command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Test-Document.ps1
             -DocumentPath \"${{ env.CONTAINER_BUILD_PATH }}/${{ env.DOCUMENT_NAME }}.pdf\"
 
