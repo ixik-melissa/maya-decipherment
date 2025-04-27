@@ -22,7 +22,7 @@ jobs:
         uses: actions/checkout@v3
 
       - name: Bundle sources
-        run: zip -r ${{ env.SOURCE_BUNDLE_NAME }} . -x ".git/*" ".github/*"
+        run: zip -r ${{ env.SOURCE_BUNDLE_NAME }} . -x ".git/*"
       
       - name: Set up Docker buildx
         uses: docker/setup-buildx-action@v1
