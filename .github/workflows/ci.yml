@@ -25,17 +25,17 @@ jobs:
         uses: actions/checkout@v3
       
       - name: Build Docker container
-        uses: ./.github/workflows/docker_build.yml
+        uses: ./.github/actions/docker_build
 
       - name: Test LaTeX files
-        uses: ./.github/workflows/docker_run.yml
+        uses: ./.github/actions/docker_run
         with:
           command: |
             ${{ env.CONTAINER_SOURCE_PATH }}/Test-LaTeXFiles.ps1 
             -RootPath \"${{ env.CONTAINER_SOURCE_PATH }}\"
 
       - name: Compile document
-        uses: ./.github/workflows/docker_run.yml
+        uses: ./.github/actions/docker_run
         with:
           command: |
             ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
@@ -45,7 +45,7 @@ jobs:
             -TexFile \"${{ env.CONTAINER_MAIN_PATH }}\"
 
       - name: Test document
-        uses: ./.github/workflows/docker_run.yml
+        uses: ./.github/actions/docker_run
         with:
           command: |
             ${{ env.CONTAINER_SOURCE_PATH }}/Test-Document.ps1

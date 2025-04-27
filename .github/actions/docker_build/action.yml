@@ -1,0 +1,24 @@
+
+name: Build docker container
+
+inputs:
+  container_context:
+    type: string
+    required: true
+    default: container
+  container_tag:
+    type: string
+    required: true
+    default: maya/build_document:test
+
+runs:
+  using: "composite"
+  steps:
+    - name: Build Docker container
+      uses: docker/build-push-action@v2
+      with:
+        context: ${{ inputs.container_context }}
+        load: true
+        tags: ${{ inputs.container_tag }}
+        cache-from: type=gha
+        cache-to: type=gha,mode=max
