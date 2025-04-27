@@ -11,7 +11,7 @@
 ## [13.0.12.4.0] - 2025-01-10
 
 ### Added
-- Completed chapter 'Terminology' (#29)
+- Chapter 'Terminology' (#29)
 - Introduced new and more powerful tool _Ask-Ajkin_ to deal with Maya and Gregorian dates (#29)
 
 ### Changed
@@ -26,16 +26,6 @@
 
 ### Removed
 - Deprecated _Ask-Ajpula_. _Ask-Ajkin_ is the replacement (#29)
-
-
-## [13.0.11.1.16] - 2023-12-03
-
-### Added
-- Chapter 'Terminology' (still not completed)
-
-### Fixed
-- _PowerShell_ version 7.4.0 in _Docker_ containers
-
 
 
 ## [13.0.10.8.13] - 2023-04-24
