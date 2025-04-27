@@ -32,6 +32,7 @@ runs:
   steps:
     - name: Run Powershell command
       id: command
+      shell: bash
       run: >-
         echo "result=
         $(docker run --rm 
