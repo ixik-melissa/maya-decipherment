@@ -19,14 +19,14 @@
 }
 
 % declare some pdf header stuff
-\newcommand{\worktitle}{Maya Hieroglyphs --- The History of Decipherment}
-\newcommand{\authorlist}{Melissa Bauer}
+\newcommand{\worktitle}{The Decipherment of the Maya Hieroglyphs}
+\newcommand{\theauthor}{Melissa Bauer}
 
 \title{\worktitle}
-\author{\authorlist}
+\author{\theauthor}
 \date{\today}
 \hypersetup{
-	pdfauthor={\authorlist},
+	pdfauthor={\theauthor},
 	pdfkeywords={history, decipherment, Maya, hieroglyphs, writing, inscriptions},
 	pdftitle={\worktitle},
 	pdfsubject={\worktitle}
@@ -35,9 +35,7 @@
 % actual beginning of document
 \begin{document}
 	\pagenumbering{Alph}	
-	\begin{titlepage}	
-		\subfile{title/title}
-	\end{titlepage}
+	\subfile{title/title}
 
 	% table of contents
 	\pagenumbering{roman}

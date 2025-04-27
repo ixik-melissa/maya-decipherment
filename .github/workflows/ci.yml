@@ -14,7 +14,7 @@ env:
   CONTAINER_SOURCE_PATH: /opt/source
   CONTAINER_BUILD_PATH: /opt/source/build
   CONTAINER_MAIN_PATH: main.tex
-  DOCUMENT_NAME: "Maya Hieroglyphs - The History of Decipherment"
+  DOCUMENT_NAME: main
 
 jobs:
   compile_document:

@@ -1,4 +1,4 @@
-# Maya Hieroglyphs - The History of Decipherment
+# The Decipherment of the Maya Hieroglyphs
 ## Purpose of this project
 The Maya hieroglyphs and the Maya script have been a mystery for centuries.
 Scholars from all over the world tried to crack the `Mayan Code' since the early 1830s.
@@ -98,8 +98,7 @@ Some important scripts are:
 
 ## Open source
 This document is open source which means everybody can work with it, improve it and give feedback.
-The history of decipherment of Maya hieroglyphs should be readable and understandable to anyone
-interested in this manner.
+It should be readable and understandable to anyone interested in this manner.
 All texts, images and illustrations should be publicly available, so that the great
 process of decipherment can be shared with everyone around the world. 
 The project uses the [MIT license](LICENSE) which basically allows everyone to use the code, 

@@ -25,7 +25,7 @@ RUN apt-get -qq install \
 
 # Install PowerShell
 ARG TARGETPLATFORM
-RUN curl -L -o /tmp/powershell.tar.gz https://github.com/PowerShell/PowerShell/releases/download/v7.4.6/powershell-7.4.6-$(echo "$TARGETPLATFORM" | sed 's/amd64/x64/g' | sed 's/\//-/g').tar.gz && \
+RUN curl -L -o /tmp/powershell.tar.gz https://github.com/PowerShell/PowerShell/releases/download/v7.5.1/powershell-7.5.1-$(echo "$TARGETPLATFORM" | sed 's/amd64/x64/g' | sed 's/\//-/g').tar.gz && \
     mkdir -p /opt/microsoft/powershell/7 && \
     tar zxf /tmp/powershell.tar.gz -C /opt/microsoft/powershell/7 && \
     chmod +x /opt/microsoft/powershell/7/pwsh && \
@@ -42,4 +42,4 @@ USER root
 
 # Compile document when container is executed with defaults
 SHELL [ "pwsh" ]
-CMD ["pwsh", "-Command", "/opt/sources/Compile-Document.ps1 -DocumentName \"Maya Hieroglyphs - The History of Decipherment\""]
+CMD ["pwsh", "-Command", "/opt/sources/Compile-Document.ps1 -DocumentName \"The Decipherment of the Maya Hieroglyphs\""]

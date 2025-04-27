@@ -38,16 +38,16 @@ by a network connection or by mounted volumes.
 
 ## Creating the container
 Let's assume we are in the root folder of our repository.
-To build a Docker container tagged `maya-hod`, one types:
+To build a Docker container tagged `maya-decipherment`, one types:
 
-    docker build -t maya-hod container/
+    docker build -t maya-decipherment container/
 
 ## Executing the container
 To run the container, please enter the following line:
 
-    docker run -v$(pwd)/:/opt/sources maya-hod
+    docker run -v$(pwd)/:/opt/sources maya-decipherment
 
-It will create a PDF document called `Maya Hieroglyphs - The History of Decipherment.pdf`.
+It will create a PDF document called `The Decipherment of the Maya Hieroglyphs.pdf`.
 In this project, a volume is used to map all files, documents, images etc. into the container.
 The container works directly with the files on the host.
 That means, once the git project is cloned locally, the Docker container can interact with the 
