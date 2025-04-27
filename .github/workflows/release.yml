@@ -14,6 +14,7 @@ env:
 
 jobs:
   create_release_draft:
+    name: Create release draft
     runs-on: ubuntu-latest
 
     steps:

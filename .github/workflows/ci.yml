@@ -18,6 +18,7 @@ env:
 
 jobs:
   compile_document:
+    name: Compile document
     runs-on: ubuntu-latest
 
     steps:
