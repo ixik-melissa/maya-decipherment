@@ -9,7 +9,7 @@ env:
   CONTAINER_SOURCE_PATH: /opt/source
   CONTAINER_BUILD_PATH: /opt/source/build
   CONTAINER_MAIN_PATH: main.tex
-  DOCUMENT_NAME: "The Decipherment of the Maya Hieroglyphs"
+  DOCUMENT_BASE_NAME: "The Decipherment of the Maya Hieroglyphs"
   SOURCE_BUNDLE_NAME: sources.zip
 
 jobs:
@@ -36,6 +36,26 @@ jobs:
           cache-from: type=gha
           cache-to: type=gha,mode=max
 
+      - name: Determine version
+        id: determine_version
+        run: >-
+          echo "release_version=
+          $(docker run --rm 
+          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
+          ${{ env.CONTAINER_TAG }}
+          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Edit-DocumentVersion.ps1 
+          -VersionTexPath ${{ env.CONTAINER_SOURCE_PATH }}/document-version.tex 
+          -LongCount 
+          ")" 
+          >> $GITHUB_OUTPUT
+
+      - name: Define document name
+        id: define_document_name
+        run: >-
+          echo "document_name=
+          ${{ env.DOCUMENT_BASE_NAME }}(${{ steps.determine_version.outputs.release_version }}) 
+          >> $GITHUB_OUTPUT
+
       - name: Compile document
         run: >-
           docker run --rm 
@@ -45,25 +65,13 @@ jobs:
           pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
           -SourcePath \"${{ env.CONTAINER_SOURCE_PATH }}\" 
           -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
-          -DocumentName \"${{ env.DOCUMENT_NAME }}\" 
+          -DocumentName \"${{ steps.define_document_name.outputs.document_name }}\" 
           -TexFile \"${{ env.CONTAINER_MAIN_PATH }}\""
-
-      - name: Determine version
-        run: >-
-          echo "RELEASE_VERSION=
-          $(docker run --rm 
-          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
-          ${{ env.CONTAINER_TAG }}
-          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Edit-DocumentVersion.ps1 
-          -VersionTexPath ${{ env.CONTAINER_SOURCE_PATH }}/document-version.tex 
-          -LongCount 
-          ")" 
-          >> $GITHUB_ENV
 
       - name: Create tag
         run: |
-          git tag ${{ env.RELEASE_VERSION }} HEAD
-          git push origin ${{ env.RELEASE_VERSION }}
+          git tag ${{ steps.determine_version.outputs.release_version }} HEAD
+          git push origin ${{ steps.determine_version.outputs.release_version }}
 
       - name: Create release draft
         uses: ncipollo/release-action@v1
@@ -71,8 +79,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           prerelease: false
-          name: Release ${{ env.RELEASE_VERSION }}
-          tag: ${{ env.RELEASE_VERSION }}
+          name: ${{ steps.determine_version.outputs.release_version }}
+          tag: ${{ steps.determine_version.outputs.release_version }}
           bodyFile: CHANGELOG.md
-          artifacts: "build/${{ env.DOCUMENT_NAME }}.pdf, ${{ env.SOURCE_BUNDLE_NAME }}"
+          artifacts: |
+            "build/${{ steps.define_document_name.outputs.document_name }}.pdf
+            ${{ env.SOURCE_BUNDLE_NAME }}"
 
