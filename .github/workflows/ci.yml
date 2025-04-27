@@ -10,7 +10,6 @@ on:
   workflow_dispatch:
   
 env:
-  CONTAINER_TAG: maya/build_document:test
   CONTAINER_SOURCE_PATH: /opt/source
   CONTAINER_BUILD_PATH: /opt/source/build
   CONTAINER_MAIN_PATH: main.tex
@@ -25,43 +24,31 @@ jobs:
       - name: Checkout sources
         uses: actions/checkout@v3
       
-      - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v1
-        
       - name: Build Docker container
-        uses: docker/build-push-action@v2
-        with:
-          context: container
-          load: true
-          tags: ${{ env.CONTAINER_TAG }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+        uses: ./.github/workflows/docker_build.yml
 
       - name: Test LaTeX files
-        run: >-
-          docker run --rm 
-          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
-          ${{ env.CONTAINER_TAG }} 
-          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Test-LaTeXFiles.ps1
-          -RootPath \"${{ env.CONTAINER_SOURCE_PATH }}\""
+        uses: ./.github/workflows/docker_run.yml
+        with:
+          command: |
+            ${{ env.CONTAINER_SOURCE_PATH }}/Test-LaTeXFiles.ps1 
+            -RootPath \"${{ env.CONTAINER_SOURCE_PATH }}\"
 
       - name: Compile document
-        run: >-
-          docker run --rm 
-          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
-          -v $GITHUB_WORKSPACE/build:${{ env.CONTAINER_BUILD_PATH }}
-          ${{ env.CONTAINER_TAG }}
-          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
-          -SourcePath \"${{ env.CONTAINER_SOURCE_PATH }}\" 
-          -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
-          -DocumentName \"${{ env.DOCUMENT_NAME }}\" 
-          -TexFile \"${{ env.CONTAINER_MAIN_PATH }}\""
+        uses: ./.github/workflows/docker_run.yml
+        with:
+          command: |
+            ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
+            -SourcePath \"${{ env.CONTAINER_SOURCE_PATH }}\" 
+            -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
+            -DocumentName \"${{ env.DOCUMENT_NAME }}\" 
+            -TexFile \"${{ env.CONTAINER_MAIN_PATH }}\"
 
       - name: Test document
-        run: >-
-          docker run --rm 
-          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
-          ${{ env.CONTAINER_TAG }} 
-          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Test-Document.ps1
-          -DocumentPath \"${{ env.CONTAINER_BUILD_PATH }}/${{ env.DOCUMENT_NAME }}.pdf\""
+        uses: ./.github/workflows/docker_run.yml
+        with:
+          command: |
+            ${{ env.CONTAINER_SOURCE_PATH }}/Test-Document.ps1
+            -DocumentPath \"${{ env.CONTAINER_BUILD_PATH }}/${{ env.DOCUMENT_NAME }}.pdf\"
+
 
