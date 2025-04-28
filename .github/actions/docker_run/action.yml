@@ -5,6 +5,9 @@ inputs:
   command:
     required: true
     type: string
+  return_output:
+    required: true
+    default: false
   container_context:
     type: string
     required: true
@@ -33,17 +36,23 @@ runs:
     - name: Run Powershell command
       id: command
       shell: bash
+      if: ${{ inputs.return_output }}
       run: >-
-        {
-          echo "result<<EOF";
-          echo "$(docker run --rm \
-          -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }} \
-          -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }} \
-          ${{ inputs.container_tag }} \
-          pwsh -Command "${{ inputs.command }}" \
-          )";
-          echo "EOF"
-        } >> $GITHUB_OUTPUT
-    - name: Print result
+        echo "result=$(docker run --rm
+        -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }}
+        -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }}
+        ${{ inputs.container_tag }}
+        pwsh -Command "${{ inputs.command }}"
+        )">> $GITHUB_OUTPUT
+
+    - name: Run Powershell command
+      id: command_without_return_value
       shell: bash
-      run: echo '${{ steps.command.outputs.result }}'
+      if: ${{ ! inputs.return_output }}
+      run: >-
+        docker run --rm
+        -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }}
+        -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }}
+        ${{ inputs.container_tag }}
+        pwsh -Command "${{ inputs.command }}"
+        )
