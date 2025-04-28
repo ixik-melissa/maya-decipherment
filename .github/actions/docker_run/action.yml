@@ -36,11 +36,11 @@ runs:
       run: >-
         {
           echo 'result<<EOF';
-          $(docker run --rm \
+          echo "$(docker run --rm \
           -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }} \
           -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }} \
           ${{ inputs.container_tag }} \
           pwsh -Command "${{ inputs.command }}" \
-          );
+          )";
           echo 'EOF'
         } >> $GITHUB_OUTPUT
