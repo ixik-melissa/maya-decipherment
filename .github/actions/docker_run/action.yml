@@ -41,6 +41,6 @@ runs:
           -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }}
           ${{ inputs.container_tag }}
           pwsh -Command "${{ inputs.command }}" 
-          )";
+          );
           echo 'EOF'
         } >> $GITHUB_OUTPUT
