@@ -46,4 +46,4 @@ runs:
         } >> $GITHUB_OUTPUT
     - name: Print result
       shell: bash
-      run: echo "${{ steps.command.outputs.result }}"
+      run: echo '${{ steps.command.outputs.result }}'
