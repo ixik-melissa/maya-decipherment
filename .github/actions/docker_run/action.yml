@@ -44,3 +44,6 @@ runs:
           )";
           echo 'EOF'
         } >> $GITHUB_OUTPUT
+    - name: Print result
+      shell: bash
+      run: echo "${{ steps.command.outputs.result }}"
