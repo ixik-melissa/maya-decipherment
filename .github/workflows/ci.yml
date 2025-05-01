@@ -12,7 +12,7 @@ on:
 env:
   CONTAINER_SOURCE_PATH: /opt/source
   CONTAINER_BUILD_PATH: /opt/source/build
-  CONTAINER_MAIN_PATH: main.tex
+  CONTAINER_MAIN_PATH: /opt/source/main.tex
   DOCUMENT_NAME: main
 
 jobs:
@@ -39,10 +39,9 @@ jobs:
         with:
           command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
-            -SourcePath \"${{ env.CONTAINER_SOURCE_PATH }}\" 
+            -TexPath \"${{ env.CONTAINER_TEX_PATH }}\"
             -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
             -DocumentName \"${{ env.DOCUMENT_NAME }}\" 
-            -TexFile \"${{ env.CONTAINER_MAIN_PATH }}\"
 
       - name: Test document
         uses: ./.github/actions/docker_run
