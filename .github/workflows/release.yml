@@ -6,7 +6,7 @@ on:
   
 env:
   CONTAINER_BUILD_PATH: /opt/source/build
-  CONTAINER_MAIN_PATH: /opt/source/main.tex
+  CONTAINER_TEX_PATH: /opt/source/main.tex
   DOCUMENT_BASE_NAME: "The Decipherment of the Maya Hieroglyphs"
   SOURCE_BUNDLE_NAME: sources.zip
 
@@ -47,7 +47,7 @@ jobs:
         with:
           command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
-            -TexPath \"${{ env.CONTAINER_MAIN_PATH }}\""
+            -TexPath \"${{ env.CONTAINER_TEX_PATH }}\""
             -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
             -DocumentName \"${{ steps.document_name.outputs.value }}\" 
 
