@@ -8,7 +8,7 @@ env:
   CONTAINER_SOURCE_PATH: /opt/source
   CONTAINER_TEX_PATH: /opt/source/main.tex
   CONTAINER_BUILD_PATH: /opt/source/build
-  DOCUMENT_BASE_NAME: "The Decipherment of the Maya Hieroglyphs"
+  DOCUMENT_BASE_NAME: The Decipherment of the Maya Hieroglyphs
   SOURCE_BUNDLE_NAME: sources.zip
 
 jobs:
@@ -26,8 +26,8 @@ jobs:
       - name: Bundle sources
         run: zip -r ${{ env.SOURCE_BUNDLE_NAME }} . -x ".git/*"
 
-      - name: Determine version
-        id: determine_version
+      - name: Determine release version
+        id: release_version
         uses: ./.github/actions/docker_run
         with:
           return_value: true
