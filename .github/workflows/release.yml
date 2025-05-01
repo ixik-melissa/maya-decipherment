@@ -5,8 +5,9 @@ on:
   workflow_dispatch:
   
 env:
-  CONTAINER_BUILD_PATH: /opt/source/build
+  CONTAINER_SOURCE_PATH: /opt/source
   CONTAINER_TEX_PATH: /opt/source/main.tex
+  CONTAINER_BUILD_PATH: /opt/source/build
   DOCUMENT_BASE_NAME: "The Decipherment of the Maya Hieroglyphs"
   SOURCE_BUNDLE_NAME: sources.zip
 
