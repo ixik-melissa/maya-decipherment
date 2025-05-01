@@ -29,17 +29,17 @@ jobs:
         id: determine_version
         uses: ./.github/actions/docker_run
         with:
-          return_output: true
+          return_value: true
           command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Edit-DocumentVersion.ps1 
             -VersionTexPath ${{ env.CONTAINER_SOURCE_PATH }}/document-version.tex 
             -LongCount
 
       - name: Define document name
-        id: define_document_name
+        id: document_name
         run: >-
-          echo "document_name=
-          ${{ env.DOCUMENT_BASE_NAME }}(${{ steps.release_version.outputs.result }}) 
+          echo "value=
+          ${{ env.DOCUMENT_BASE_NAME }}(${{ steps.release_version.outputs.value }}) 
           >> $GITHUB_OUTPUT
 
       - name: Compile document
@@ -49,12 +49,12 @@ jobs:
             ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
             -TexPath \"${{ env.CONTAINER_MAIN_PATH }}\""
             -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
-            -DocumentName \"${{ steps.define_document_name.outputs.document_name }}\" 
+            -DocumentName \"${{ steps.document_name.outputs.value }}\" 
 
       - name: Create tag
         run: |
-          git tag ${{ steps.release_version.outputs.result }} HEAD
-          git push origin ${{ steps.release_version.outputs.result }}
+          git tag ${{ steps.release_version.outputs.value }} HEAD
+          git push origin ${{ steps.release_version.outputs.value }}
 
       - name: Create release draft
         uses: ncipollo/release-action@v1
@@ -62,10 +62,10 @@ jobs:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           prerelease: false
-          name: ${{ steps.release_version.outputs.result }}
-          tag: ${{ steps.release_version.outputs.result }}
+          name: ${{ steps.release_version.outputs.value }}
+          tag: ${{ steps.release_version.outputs.value }}
           bodyFile: CHANGELOG.md
           artifacts: |
-            "build/${{ steps.define_document_name.outputs.document_name }}.pdf
+            "build/${{ steps.document_name.outputs.value }}.pdf
             ${{ env.SOURCE_BUNDLE_NAME }}"
 
