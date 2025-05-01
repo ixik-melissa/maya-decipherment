@@ -39,7 +39,7 @@ jobs:
       - name: Define document name
         id: document_name
         run: >-
-          echo "value=\"${{ env.DOCUMENT_BASE_NAME }}(${{ steps.release_version.outputs.value }})\""
+          echo "value=${{ env.DOCUMENT_BASE_NAME }}(${{ steps.release_version.outputs.value }})"
           >> $GITHUB_OUTPUT
 
       - name: Compile document

@@ -5,7 +5,7 @@ inputs:
   command:
     required: true
     type: string
-  return_output:
+  return_value:
     required: true
     default: false
   container_context:
@@ -36,7 +36,7 @@ runs:
     - name: Run Powershell command
       id: command
       shell: bash
-      if: ${{ inputs.return_output == 'true'}}
+      if: ${{ inputs.return_value == 'true'}}
       run: >-
         echo "result=$(docker run --rm
         -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }}
@@ -48,7 +48,7 @@ runs:
     - name: Run Powershell command
       id: command_without_return_value
       shell: bash
-      if: ${{ inputs.return_output == 'false'}}
+      if: ${{ inputs.return_value == 'false'}}
       run: >-
         docker run --rm
         -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }}
