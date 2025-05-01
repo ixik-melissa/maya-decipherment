@@ -11,8 +11,8 @@ on:
   
 env:
   CONTAINER_SOURCE_PATH: /opt/source
+  CONTAINER_TEX_PATH: /opt/source/main.tex
   CONTAINER_BUILD_PATH: /opt/source/build
-  CONTAINER_MAIN_PATH: /opt/source/main.tex
   DOCUMENT_NAME: main
 
 jobs:
