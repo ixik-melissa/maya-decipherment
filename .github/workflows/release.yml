@@ -9,7 +9,6 @@ env:
   CONTAINER_TEX_PATH: /opt/source/main.tex
   CONTAINER_BUILD_PATH: /opt/source/build
   DOCUMENT_BASE_NAME: The Decipherment of the Maya Hieroglyphs
-  SOURCE_BUNDLE_NAME: sources.zip
 
 jobs:
   create_release_draft:
@@ -22,9 +21,6 @@ jobs:
 
       - name: Build Docker container
         uses: ./.github/actions/docker_build
-
-      - name: Bundle sources
-        run: zip -r ${{ env.SOURCE_BUNDLE_NAME }} . -x ".git/*"
 
       - name: Determine release version
         id: release_version
@@ -65,5 +61,5 @@ jobs:
           name: ${{ steps.release_version.outputs.value }}
           tag: ${{ steps.release_version.outputs.value }}
           bodyFile: CHANGELOG.md
-          artifacts: "build/${{ steps.document_name.outputs.value }}.pdf, ${{ env.SOURCE_BUNDLE_NAME }}"
+          artifacts: "build/${{ steps.document_name.outputs.value }}.pdf
 
