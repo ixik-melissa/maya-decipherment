@@ -47,7 +47,7 @@ jobs:
         with:
           command: >-
             ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
-            -TexPath \"${{ env.CONTAINER_TEX_PATH }}\""
+            -TexPath \"${{ env.CONTAINER_TEX_PATH }}\"
             -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
             -DocumentName \"${{ steps.document_name.outputs.value }}\" 
 
