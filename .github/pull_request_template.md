@@ -24,3 +24,4 @@ Please delete options that are not relevant.
 - [ ] I have made corresponding changes to the documentation
 - [ ] All external files (like images, photos) are granted to be used and marked accordingly
 - [ ] I checked all newly cited sources
+- [ ] Bump document version (by running [Edit-DocumentVersion.ps1](../Edit-DocumentVersion.ps1))
