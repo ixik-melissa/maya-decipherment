@@ -1,0 +1,6 @@
+version: 2
+updates:
+  - package-ecosystem: "github-actions" # Necessary to update action hashes	
+    directory: "/"
+    schedule:
+      interval: "weekly"
