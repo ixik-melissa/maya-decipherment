@@ -1,0 +1,57 @@
+
+name: Run container
+
+inputs:
+  command:
+    required: true
+    type: string
+  return_value:
+    required: true
+    default: false
+  container_context:
+    type: string
+    required: true
+    default: container
+  container_tag:
+    type: string
+    required: true
+    default: maya/build_document:test
+  container_source_path:
+    type: string
+    required: true
+    default: /opt/source
+  container_build_path:
+    type: string
+    required: true
+    default: /opt/source/build
+
+outputs:
+  value:
+    value: ${{ steps.command.outputs.result }}
+
+
+runs:
+  using: "composite"
+  steps:
+    - name: Run Powershell command
+      id: command
+      shell: bash
+      if: ${{ inputs.return_value == 'true'}}
+      run: >-
+        echo "result=$(docker run --rm
+        -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }}
+        -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }}
+        ${{ inputs.container_tag }}
+        pwsh -Command "${{ inputs.command }}"
+        )">> $GITHUB_OUTPUT
+
+    - name: Run Powershell command
+      id: command_without_return_value
+      shell: bash
+      if: ${{ inputs.return_value == 'false'}}
+      run: >-
+        docker run --rm
+        -v $GITHUB_WORKSPACE:${{ inputs.container_source_path }}
+        -v $GITHUB_WORKSPACE/build:${{ inputs.container_build_path }}
+        ${{ inputs.container_tag }}
+        pwsh -Command "${{ inputs.command }}"

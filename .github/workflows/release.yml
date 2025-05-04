@@ -5,73 +5,61 @@ on:
   workflow_dispatch:
   
 env:
-  CONTAINER_TAG: maya/build_document:test
   CONTAINER_SOURCE_PATH: /opt/source
+  CONTAINER_TEX_PATH: /opt/source/main.tex
   CONTAINER_BUILD_PATH: /opt/source/build
-  CONTAINER_MAIN_PATH: main.tex
-  DOCUMENT_NAME: "The Decipherment of the Maya Hieroglyphs"
-  SOURCE_BUNDLE_NAME: sources.zip
+  DOCUMENT_BASE_NAME: The Decipherment of the Maya Hieroglyphs
 
 jobs:
   create_release_draft:
+    name: Create release draft
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout sources
-        uses: actions/checkout@v3
+        uses: actions/checkout@11bd71901bbe5b1630ceea73d27597364c9af683 # v4.2.2
 
-      - name: Bundle sources
-        run: zip -r ${{ env.SOURCE_BUNDLE_NAME }} . -x ".git/*" ".github/*"
-      
-      - name: Set up Docker buildx
-        uses: docker/setup-buildx-action@v1
-        
       - name: Build Docker container
-        uses: docker/build-push-action@v2
+        uses: ./.github/actions/docker_build
+
+      - name: Determine release version
+        id: release_version
+        uses: ./.github/actions/docker_run
         with:
-          context: container
-          load: true
-          tags: ${{ env.CONTAINER_TAG }}
-          cache-from: type=gha
-          cache-to: type=gha,mode=max
+          return_value: true
+          command: >-
+            ${{ env.CONTAINER_SOURCE_PATH }}/Edit-DocumentVersion.ps1 
+            -VersionTexPath ${{ env.CONTAINER_SOURCE_PATH }}/document-version.tex 
+            -LongCount
+
+      - name: Define document name
+        id: document_name
+        run: >-
+          echo "value=${{ env.DOCUMENT_BASE_NAME }}(${{ steps.release_version.outputs.value }})"
+          >> $GITHUB_OUTPUT
 
       - name: Compile document
-        run: >-
-          docker run --rm 
-          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
-          -v $GITHUB_WORKSPACE/build:${{ env.CONTAINER_BUILD_PATH }}
-          ${{ env.CONTAINER_TAG }}
-          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
-          -SourcePath \"${{ env.CONTAINER_SOURCE_PATH }}\" 
-          -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
-          -DocumentName \"${{ env.DOCUMENT_NAME }}\" 
-          -TexFile \"${{ env.CONTAINER_MAIN_PATH }}\""
-
-      - name: Determine version
-        run: >-
-          echo "RELEASE_VERSION=
-          $(docker run --rm 
-          -v $GITHUB_WORKSPACE:${{ env.CONTAINER_SOURCE_PATH }}
-          ${{ env.CONTAINER_TAG }}
-          pwsh -Command "${{ env.CONTAINER_SOURCE_PATH }}/Edit-DocumentVersion.ps1 
-          -VersionTexPath ${{ env.CONTAINER_SOURCE_PATH }}/document-version.tex 
-          -LongCount 
-          ")" 
-          >> $GITHUB_ENV
+        uses: ./.github/actions/docker_run
+        with:
+          command: >-
+            ${{ env.CONTAINER_SOURCE_PATH }}/Compile-Document.ps1
+            -TexPath \"${{ env.CONTAINER_TEX_PATH }}\"
+            -BuildPath \"${{ env.CONTAINER_BUILD_PATH}}\" 
+            -DocumentName \"${{ steps.document_name.outputs.value }}\" 
 
       - name: Create tag
         run: |
-          git tag ${{ env.RELEASE_VERSION }} HEAD
-          git push origin ${{ env.RELEASE_VERSION }}
+          git tag ${{ steps.release_version.outputs.value }} HEAD
+          git push origin ${{ steps.release_version.outputs.value }}
 
       - name: Create release draft
-        uses: ncipollo/release-action@v1
+        uses: ncipollo/release-action@440c8c1cb0ed28b9f43e4d1d670870f059653174 # v1.16.0
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           draft: true
           prerelease: false
-          name: Release ${{ env.RELEASE_VERSION }}
-          tag: ${{ env.RELEASE_VERSION }}
+          name: ${{ steps.release_version.outputs.value }}
+          tag: ${{ steps.release_version.outputs.value }}
           bodyFile: CHANGELOG.md
-          artifacts: "build/${{ env.DOCUMENT_NAME }}.pdf, ${{ env.SOURCE_BUNDLE_NAME }}"
+          artifacts: "build/${{ steps.document_name.outputs.value }}.pdf"
 

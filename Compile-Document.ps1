@@ -28,22 +28,17 @@ param (
     [string]
     # The TeX file to be compiled.
     [Parameter(HelpMessage="Enter LaTeX file to compile.")]
-    $TexFile = "$(Resolve-Path -Path $PSScriptRoot)/main.tex",
-
-    [string]
-    # The path to the TeX source files. Usually the root of a TeX project.
-    [Parameter(HelpMessage="Enter path in which LaTeX sources are located.")]
-    $SourcePath="$(Resolve-Path -Path $PSScriptRoot)",
+    $TexPath = "main.tex",
 
     [string]
     # The path to the output directory. The final document will be placed there, too.
     [Parameter(HelpMessage="Enter path in which output files can be stored.")]
-    $BuildPath="$(Resolve-Path -Path $(Get-Item $TexFile).Directory)/build",
+    $BuildPath="build",
 
     [string]
     # The file name of the PDF document.
     [Parameter(HelpMessage="Enter name of the final PDF document.")]
-    $DocumentName="$((Get-Item $TexFile).BaseName)"
+    $DocumentName="$((Get-Item $TexPath).BaseName)"
 )
 
 function Write-Summary {
@@ -51,15 +46,21 @@ function Write-Summary {
     Write-Output ""
     Write-Output "Settings:"
     Write-Output "  Name of document: $DocumentName"
-    Write-Output "  Source path:      $SourcePath"
+    Write-Output "  Tex file:         $TexPath"
     Write-Output "  Build path:       $BuildPath"
-    Write-Output "  Tex file:         $TexFile"
     Write-Output ""
     Write-Output "Invoking latexmk..."
     Write-Output ""
 }
 
 function Invoke-LaTeX {
+    if (!(Test-Path $TexPath -PathType Leaf)) {
+        Write-Error "Tex file $TexPath doesn't exist"
+        Exit 1
+    }
+
+    $SourcePath = (Get-Item $TexPath).Directory
+
     Set-Location -Path "$SourcePath"
     latexmk `
         -cd `
@@ -70,7 +71,7 @@ function Invoke-LaTeX {
         -Werror `
         -jobname="$DocumentName" `
         -outdir="$BuildPath" `
-        "$TexFile"
+        "$TexPath"
 }
 
 Write-Summary
